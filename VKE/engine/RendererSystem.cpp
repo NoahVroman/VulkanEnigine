@@ -72,9 +72,13 @@ namespace Engine
 		configInfo.renderPass = renderpass;
 		configInfo.pipelineLayout = m_PipelineLayout;
 
-		m_Pipeline = std::make_unique<Pipeline>(m_Device, "shaders/simple_shader.vert.spv",
+	/*	m_Pipeline = std::make_unique<Pipeline>(m_Device, "shaders/simple_shader.vert.spv",
 												"shaders/simple_shader.frag.spv",
-												configInfo);
+												configInfo);*/
+
+		m_PipelinePBR = std::make_unique<Pipeline>(m_Device, "shaders/PBRShader.vert.spv",
+												   "shaders/PBRShader.frag.spv",
+												   configInfo);
 
 		configInfo.Is3D = false;
 
@@ -82,6 +86,7 @@ namespace Engine
 															"shaders/2D_shader.frag.spv",
 															configInfo);
 
+		
 
 		
 	}
@@ -106,7 +111,7 @@ namespace Engine
 		{
 			if (obj.Is3D())
 			{
-				 m_Pipeline->Bind(frameinfo.commandBuffer);
+				m_PipelinePBR->Bind(frameinfo.commandBuffer);
 
 			}
 			else

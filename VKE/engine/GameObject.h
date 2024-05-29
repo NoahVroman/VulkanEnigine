@@ -65,6 +65,7 @@ namespace Engine
 		bool Is3D() const { return is3D; }
 		void SetIs3D(bool value) { is3D = value; }
 
+
 		std::shared_ptr<Mesh> m_Mesh{};
 		glm::vec3 color{ };
 
@@ -74,6 +75,7 @@ namespace Engine
 		GameObject(id_t id) : m_Id(id) {};
 
 		bool is3D = true;
+
 
 		id_t m_Id;
 		

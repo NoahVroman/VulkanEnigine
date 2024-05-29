@@ -27,7 +27,7 @@ namespace Engine
 
 	private:
 		KeyboardMapping m_keyboardMapping;
-		float m_MoveSpeed{ 3.f };
+		float m_MoveSpeed{ 15.f };
 		float m_Sensitivity{ 0.001f };
 		
 	};

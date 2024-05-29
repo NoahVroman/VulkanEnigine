@@ -32,6 +32,7 @@ namespace Engine
 
 		std::unique_ptr<Pipeline> m_Pipeline;
 		std::unique_ptr<Pipeline> m_Pipeline2D;
+		std::unique_ptr<Pipeline> m_PipelinePBR;
 		VkPipelineLayout m_PipelineLayout;
 
 

@@ -32,6 +32,9 @@ namespace Engine
 			.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
 		LoadGameObjects();
@@ -39,7 +42,7 @@ namespace Engine
 	}
 	App::~App()
 	{
-
+		
 	}
 	void App::run()
 	{
@@ -63,34 +66,51 @@ namespace Engine
 		auto globalSetLayout = DescriptorSetLayout::Builder(m_Device)
 			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
 			.addBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+			.addBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+			.addBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+			.addBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
 			.build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(SwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (size_t i = 0; i < globalDescriptorSets.size(); i++)
 		{
-			VkDescriptorImageInfo imageInfo;
-			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo.imageView = m_AlbedoTexture.GetTextureImageView();
-			imageInfo.sampler = m_AlbedoTexture.GetTextureSampler();
+			VkDescriptorImageInfo diffuseinfo;
+			diffuseinfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			diffuseinfo.imageView = m_AlbedoTexture.GetTextureImageView();
+			diffuseinfo.sampler = m_AlbedoTexture.GetTextureSampler();
 
+			VkDescriptorImageInfo normal;
+			normal.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			normal.imageView = m_NormalTexture.GetTextureImageView();
+			normal.sampler = m_NormalTexture.GetTextureSampler();
 
+			VkDescriptorImageInfo roughness;
+			roughness.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			roughness.imageView = m_RoughnessTexture.GetTextureImageView();
+			roughness.sampler = m_RoughnessTexture.GetTextureSampler();
+
+			VkDescriptorImageInfo specular;
+			specular.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			specular.imageView = m_SpecularTexture.GetTextureImageView();
+			specular.sampler = m_SpecularTexture.GetTextureSampler();
+			
 
 			auto bufferInfo = uboBuffer[i]->descriptorInfo();
 			DescriptorWriter(*globalSetLayout,*m_GlobalPool)
 				.writeBuffer(0, &bufferInfo)
-				.writeImage(1, &imageInfo)
+				.writeImage(1, &diffuseinfo)
+				.writeImage(2, &normal)
+				.writeImage(3, &roughness)
+				.writeImage(4, &specular)
 				.build(globalDescriptorSets[i]);
 		}
 
 		RendererSystem rendererSystem(m_Device, m_Renderer.GetRenderPass(),globalSetLayout->getDescriptorSetLayout());
 		Camera camera{};
-		camera.SetViewTarget(glm::vec3{ -1.f,-2.f,2.f }, glm::vec3{ 0.f,0.f,2.5f });
 
 		auto vieuwerObject = GameObject::Create();
+		vieuwerObject.transform.translate = { 0.f,0.f,-25.f };
 		KeyboardInput keyboardInput{};
-
-
-
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
 
@@ -170,14 +190,15 @@ namespace Engine
 		m_GameObjects.push_back(std::move(ovalObj));
 
 
-		std::shared_ptr<Mesh> Secondmesh = Mesh::CreateModelFromFile(m_Device, "models/colored_cube.obj");
+		std::shared_ptr<Mesh> Secondmesh = Mesh::CreateModelFromFile(m_Device, "models/vehicle.obj");
 
 
 		auto meshObj2 = GameObject::Create();
 		meshObj2.m_Mesh = Secondmesh;
 		meshObj2.transform.translate = { 1.f,0.f,2.5f };
 		meshObj2.transform.scale = { 0.5f,0.5f,0.5f };
-		meshObj2.transform.rotation = {0.f,0.f,3.14/2.f };
+		meshObj2.transform.rotation = { 3.14f,0.f,0.f };
+
 
 		m_GameObjects.push_back(std::move(meshObj2));
 

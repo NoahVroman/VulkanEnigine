@@ -29,8 +29,8 @@ namespace Engine
 	void Camera::SetViewDirection(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& up)
 	{
 		const glm::vec3 w{ glm::normalize(direction) };
-		const glm::vec3 u{ glm::normalize(glm::cross(w, up)) };
-		const glm::vec3 v{ glm::cross(w, u) };
+		const glm::vec3 u{ glm::normalize(glm::cross(up, w)) };
+		const glm::vec3 v{ glm::cross(u, w) };
 
 		m_ViewMatrix = glm::mat4{ 1.f };
 		m_ViewMatrix[0][0] = u.x;
