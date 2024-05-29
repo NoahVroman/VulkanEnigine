@@ -80,7 +80,7 @@ namespace Engine {
             device.device(),
             swapChain,
             std::numeric_limits<uint64_t>::max(),
-            imageAvailableSemaphores[currentFrame],  // must be a not signaled semaphore
+            imageAvailableSemaphores[currentFrame],
             VK_NULL_HANDLE,
             imageIndex);
 

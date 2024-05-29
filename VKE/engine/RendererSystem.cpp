@@ -81,6 +81,8 @@ namespace Engine
 		m_Pipeline2D = std::make_unique<Pipeline>(m_Device, "shaders/2D_shader.vert.spv",
 															"shaders/2D_shader.frag.spv",
 															configInfo);
+
+
 		
 	}
 

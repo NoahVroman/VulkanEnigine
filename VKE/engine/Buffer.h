@@ -16,6 +16,8 @@ namespace Engine
             VkBufferUsageFlags usageFlags,
             VkMemoryPropertyFlags memoryPropertyFlags,
             VkDeviceSize minOffsetAlignment = 1);
+
+
         ~Buffer();
 
         Buffer(const Buffer&) = delete;
@@ -42,6 +44,8 @@ namespace Engine
         VkBufferUsageFlags getUsageFlags() const { return usageFlags; }
         VkMemoryPropertyFlags getMemoryPropertyFlags() const { return memoryPropertyFlags; }
         VkDeviceSize getBufferSize() const { return bufferSize; }
+
+        uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties, const VkPhysicalDevice& physicalDevice);
 
     private:
         static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);

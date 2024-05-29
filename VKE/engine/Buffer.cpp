@@ -1,10 +1,23 @@
 #include "Buffer.h"
 #include <cassert>
+#include <stdexcept>
 
 
 namespace Engine 
 {
+    uint32_t Buffer::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties, const VkPhysicalDevice& physicalDevice)
+    {
+        VkPhysicalDeviceMemoryProperties memProperties;
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
 
+        for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+            if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+                return i;
+            }
+        }
+
+        throw std::runtime_error("failed to find suitable memory type!");
+    }
     /**
      * Returns the minimum instance size required to be compatible with devices minOffsetAlignment
      *
@@ -191,4 +204,4 @@ namespace Engine
         return invalidate(alignmentSize, index * alignmentSize);
     }
 
-}  // namespace lve
+}
