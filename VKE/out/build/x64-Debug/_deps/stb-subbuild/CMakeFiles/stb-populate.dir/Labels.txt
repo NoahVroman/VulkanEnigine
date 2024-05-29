@@ -1,0 +1,14 @@
+# Target labels
+ stb-populate
+# Source files and their labels
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/CMakeFiles/stb-populate
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/CMakeFiles/stb-populate.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/CMakeFiles/stb-populate-complete.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-build.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-configure.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-download.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-install.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-mkdir.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-patch_disconnected.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-test.rule
+C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/stb-subbuild/stb-populate-prefix/src/stb-populate-stamp/stb-populate-update_disconnected.rule

@@ -1,0 +1,21 @@
+# ninja log v5
+2	44	7382572193081606	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir	1602b8e59f18d7c7
+2	44	7382572193081606	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir	1602b8e59f18d7c7
+44	7663	7382572269281569	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download	d69f3ce6de364ff3
+44	7663	7382572269281569	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download	d69f3ce6de364ff3
+7789	7831	7382572270958356	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch_disconnected	edf0b3dfff05ace6
+7663	7788	7382572270534101	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update_disconnected	82decc16d9e87ff1
+7789	7831	7382572270958356	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch_disconnected	edf0b3dfff05ace6
+7663	7788	7382572270534101	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update_disconnected	82decc16d9e87ff1
+7832	7873	7382572271381152	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	83676cef286865ab
+7999	8057	7382572273217735	CMakeFiles/glfw-populate-complete	68dc1f7c0272462a
+7999	8057	7382572273217735	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete	68dc1f7c0272462a
+7832	7873	7382572271381152	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	83676cef286865ab
+7873	7915	7382572271795366	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	176b48dad2e10408
+7873	7915	7382572271795366	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	176b48dad2e10408
+7915	7957	7382572272218730	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	6c232f270bd881a2
+7915	7957	7382572272218730	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	6c232f270bd881a2
+7957	7998	7382572272631716	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	a309e5847e11d08b
+7957	7998	7382572272631716	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	a309e5847e11d08b
+7999	8057	7382572273217735	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	68dc1f7c0272462a
+7999	8057	7382572273217735	C:/DAE/2de jaar/Semester 2/GP2/VKE/out/build/x64-Debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	68dc1f7c0272462a
