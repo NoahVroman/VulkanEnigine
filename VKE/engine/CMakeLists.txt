@@ -10,7 +10,7 @@ file(GLOB_RECURSE SOURCES
 )
 
 # Add executable target
-add_executable(Engine ${SOURCES} "utils.h" "Buffer.h" "Buffer.cpp" "FrameInfo.h" "FrameInfo.cpp" "Descriptors.h" "Descriptors.cpp" "Image.h" "Image.cpp")
+add_executable(Engine ${SOURCES} "utils.h" "Buffer.h" "Buffer.cpp" "FrameInfo.h" "FrameInfo.cpp" "Descriptors.h" "Descriptors.cpp" "Image.h" "Image.cpp" "Material.h" "Material.cpp")
 
 # Set C++ standards and properties
 set_target_properties(Engine PROPERTIES

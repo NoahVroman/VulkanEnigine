@@ -24,13 +24,14 @@ namespace Engine
 	    alignas(16)	glm::mat4 projectionVieuw{ 1.f };
 		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 1.f,-3.f,-1.f });
 	};
-
+	
 
 	App::App()
 	{
 		m_GlobalPool = DescriptorPool::Builder(m_Device)
 			.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
 		LoadGameObjects();
@@ -44,6 +45,7 @@ namespace Engine
 	{
 
 		std::vector < std::unique_ptr<Buffer>> uboBuffer(SwapChain::MAX_FRAMES_IN_FLIGHT);
+
 
 		for (size_t i = 0; i < uboBuffer.size(); i++)
 		{
@@ -60,14 +62,23 @@ namespace Engine
 
 		auto globalSetLayout = DescriptorSetLayout::Builder(m_Device)
 			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+			.addBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
 			.build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(SwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (size_t i = 0; i < globalDescriptorSets.size(); i++)
 		{
+			VkDescriptorImageInfo imageInfo;
+			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			imageInfo.imageView = m_AlbedoTexture.GetTextureImageView();
+			imageInfo.sampler = m_AlbedoTexture.GetTextureSampler();
+
+
+
 			auto bufferInfo = uboBuffer[i]->descriptorInfo();
 			DescriptorWriter(*globalSetLayout,*m_GlobalPool)
 				.writeBuffer(0, &bufferInfo)
+				.writeImage(1, &imageInfo)
 				.build(globalDescriptorSets[i]);
 		}
 
@@ -141,7 +152,7 @@ namespace Engine
 		meshObj.m_Mesh = mesh;
 		meshObj.transform.translate = { 0.1f,0.f,0.f };
 		meshObj.transform.scale = { 0.3f,0.3,0.3f };
-		meshObj.transform.rotation = { 3.14f / 2.f ,3.14f / 2.f ,0.f};
+		meshObj.transform.rotation = { 3.14f / 4.f ,3.14f / 2.f ,0.f};
 		meshObj.SetIs3D(false);
 
 		m_GameObjects.push_back(std::move(meshObj));
@@ -166,6 +177,7 @@ namespace Engine
 		meshObj2.m_Mesh = Secondmesh;
 		meshObj2.transform.translate = { 1.f,0.f,2.5f };
 		meshObj2.transform.scale = { 0.5f,0.5f,0.5f };
+		meshObj2.transform.rotation = {0.f,0.f,3.14/2.f };
 
 		m_GameObjects.push_back(std::move(meshObj2));
 

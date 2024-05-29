@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 #include "Descriptors.h"
+#include "Image.h"
 
 
 #include <memory>
@@ -38,7 +39,7 @@ namespace Engine
 
 		std::unique_ptr<DescriptorPool> m_GlobalPool{};
 
-	
+		Image m_AlbedoTexture{ m_Device,"models/kissingmen.png" };
 
 		std::vector<GameObject> m_GameObjects;
 
