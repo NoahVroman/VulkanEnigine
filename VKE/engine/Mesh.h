@@ -26,13 +26,15 @@ namespace Engine
 			glm::vec3 color{};
 			glm::vec3 normal{};
 			glm::vec2 uv{};
+			glm::vec3 tangent{};
+
 
 			static std::vector <VkVertexInputBindingDescription>   GetBindingDescriptions();
 			static std::vector <VkVertexInputAttributeDescription> GetAttributeDescriptions(bool Is3D);
 
 			bool operator==(const Vertex& other) const
 			{
-				return position == other.position && color == other.color && normal == other.normal && uv == other.uv;
+				return position == other.position && color == other.color && normal == other.normal && uv == other.uv && tangent == other.tangent;
 			}
 		};
 
@@ -42,6 +44,9 @@ namespace Engine
 			std::vector<uint32_t> indices{};
 
 			void loadModel(const std::string& filepath);
+
+			void computeTangents();
+
 		};
 
 		Mesh(Device& device, const Builder& builder);

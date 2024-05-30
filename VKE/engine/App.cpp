@@ -22,7 +22,8 @@ namespace Engine
 	struct GlobalUbo
 	{
 	    alignas(16)	glm::mat4 projectionVieuw{ 1.f };
-		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 1.f,-3.f,-1.f });
+		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 0,0,0.f });
+		alignas(16) glm::vec3 cameraPosition = {0,0,0};
 	};
 	
 
@@ -31,7 +32,7 @@ namespace Engine
 		m_GlobalPool = DescriptorPool::Builder(m_Device)
 			.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -74,25 +75,25 @@ namespace Engine
 		std::vector<VkDescriptorSet> globalDescriptorSets(SwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (size_t i = 0; i < globalDescriptorSets.size(); i++)
 		{
-			VkDescriptorImageInfo diffuseinfo;
+			VkDescriptorImageInfo diffuseinfo{};
 			diffuseinfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			diffuseinfo.imageView = m_AlbedoTexture.GetTextureImageView();
 			diffuseinfo.sampler = m_AlbedoTexture.GetTextureSampler();
 
-			VkDescriptorImageInfo normal;
+			VkDescriptorImageInfo normal{};
 			normal.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			normal.imageView = m_NormalTexture.GetTextureImageView();
 			normal.sampler = m_NormalTexture.GetTextureSampler();
 
-			VkDescriptorImageInfo roughness;
-			roughness.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			roughness.imageView = m_RoughnessTexture.GetTextureImageView();
-			roughness.sampler = m_RoughnessTexture.GetTextureSampler();
-
-			VkDescriptorImageInfo specular;
+			VkDescriptorImageInfo specular{};
 			specular.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			specular.imageView = m_SpecularTexture.GetTextureImageView();
 			specular.sampler = m_SpecularTexture.GetTextureSampler();
+
+			VkDescriptorImageInfo roughness{};
+			roughness.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			roughness.imageView = m_RoughnessTexture.GetTextureImageView();
+			roughness.sampler = m_RoughnessTexture.GetTextureSampler();
 			
 
 			auto bufferInfo = uboBuffer[i]->descriptorInfo();
@@ -100,8 +101,8 @@ namespace Engine
 				.writeBuffer(0, &bufferInfo)
 				.writeImage(1, &diffuseinfo)
 				.writeImage(2, &normal)
-				.writeImage(3, &roughness)
-				.writeImage(4, &specular)
+				.writeImage(3, &specular)
+				.writeImage(4, &roughness)
 				.build(globalDescriptorSets[i]);
 		}
 
@@ -148,6 +149,7 @@ namespace Engine
 				//update
 				GlobalUbo globalUbo{};
 				globalUbo.projectionVieuw = camera.GetProjectionMatrix() * camera.GetViewMatrix();
+				globalUbo.cameraPosition = vieuwerObject.transform.translate;
 				uboBuffer[frameindex]->writeToBuffer(&globalUbo);
 				uboBuffer[frameindex]->flush();
 
@@ -198,6 +200,7 @@ namespace Engine
 		meshObj2.transform.translate = { 1.f,0.f,2.5f };
 		meshObj2.transform.scale = { 0.5f,0.5f,0.5f };
 		meshObj2.transform.rotation = { 3.14f,0.f,0.f };
+
 
 
 		m_GameObjects.push_back(std::move(meshObj2));

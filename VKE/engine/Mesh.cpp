@@ -11,7 +11,7 @@ namespace std{
 	template<> struct hash<Engine::Mesh::Vertex> {
 		size_t operator()(Engine::Mesh::Vertex const& vertex) const {
 			size_t seed = 0;
-			Engine::hash_combine(seed, vertex.position,vertex.color,vertex.normal,vertex.uv);
+			Engine::hash_combine(seed, vertex.position,vertex.color,vertex.normal,vertex.uv, vertex.tangent);
 			return seed;
 		}
 	};
@@ -226,6 +226,7 @@ namespace Engine
 		attributeDescriptions.push_back({1,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) });
 		attributeDescriptions.push_back({2,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) });
 		attributeDescriptions.push_back({3,0,VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv) });
+		attributeDescriptions.push_back({4,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) });
 
 
 		return attributeDescriptions;
@@ -296,8 +297,8 @@ namespace Engine
 						1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
 					};
 				}
-			
-			
+
+				 
 				
 				if (uniqueVertices.count(vertex) == 0)
 				{
@@ -310,7 +311,47 @@ namespace Engine
 
 		}
 
+		computeTangents();
+	}
 
+	void Mesh::Builder::computeTangents()
+	{
+		// Initialize tangent vectors for each vertex
+		for (auto& vertex : vertices)
+		{
+			vertex.tangent = glm::vec3(0.0f);
+		}
+
+		// Compute tangent vectors for each triangle and accumulate them for each vertex
+		for (size_t i = 0; i < indices.size(); i += 3)
+		{
+			Vertex& v0 = vertices[indices[i + 0]];
+			Vertex& v1 = vertices[indices[i + 1]];
+			Vertex& v2 = vertices[indices[i + 2]];
+
+			glm::vec3 edge1 = v1.position - v0.position;
+			glm::vec3 edge2 = v2.position - v0.position;
+
+			glm::vec2 deltaUV1 = v1.uv - v0.uv;
+			glm::vec2 deltaUV2 = v2.uv - v0.uv;
+
+			float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+			glm::vec3 tangent{};
+			tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+			tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+			tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+			v0.tangent += tangent;
+			v1.tangent += tangent;
+			v2.tangent += tangent;
+		}
+
+		// Normalize tangent vectors for each vertex
+		for (auto& vertex : vertices)
+		{
+			vertex.tangent = glm::normalize(vertex.tangent);
+		}
 	}
 
 };
