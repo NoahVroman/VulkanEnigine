@@ -20,7 +20,8 @@ namespace Engine
 	Image::~Image()
 	{
 
-		Cleanup();
+
+	
 
 	}
 	void Image::CreateTextureImage(const std::string& filename)
@@ -50,6 +51,9 @@ namespace Engine
 		m_Device.copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight),1);
 		TransitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
+
+		vkDestroyBuffer(m_Device.device(), stagingBuffer, nullptr);
+		vkFreeMemory(m_Device.device(), stagingBufferMemory, nullptr);
 
 
 	}
@@ -182,5 +186,7 @@ namespace Engine
 
 		vkDestroyImage(m_Device.device(), textureImage, nullptr);
 		vkFreeMemory(m_Device.device(), textureImageMemory, nullptr);
+
+		
 	}
 }

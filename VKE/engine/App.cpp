@@ -29,6 +29,12 @@ namespace Engine
 
 	App::App()
 	{
+		m_AlbedoTexture = std::make_unique<Image>(m_Device, "models/vehicle_diffuse.png");
+		m_NormalTexture = std::make_unique<Image>(m_Device, "models/vehicle_normal.png");
+		m_SpecularTexture = std::make_unique<Image>(m_Device, "models/vehicle_specular.png");
+		m_RoughnessTexture = std::make_unique<Image>(m_Device, "models/vehicle_roughness.png");
+
+
 		m_GlobalPool = DescriptorPool::Builder(m_Device)
 			.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -43,9 +49,17 @@ namespace Engine
 	}
 	App::~App()
 	{
-
+		m_GameObjects.clear();
 
 		
+
+		m_AlbedoTexture->Cleanup();
+		m_NormalTexture->Cleanup();
+		m_SpecularTexture->Cleanup();
+		m_RoughnessTexture->Cleanup();
+
+
+		vkDeviceWaitIdle(m_Device.device());
 	}
 	void App::run()
 	{
@@ -77,25 +91,25 @@ namespace Engine
 		std::vector<VkDescriptorSet> globalDescriptorSets(SwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (size_t i = 0; i < globalDescriptorSets.size(); i++)
 		{
-			VkDescriptorImageInfo diffuseinfo{};
+			VkDescriptorImageInfo diffuseinfo;
 			diffuseinfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			diffuseinfo.imageView = m_AlbedoTexture.GetTextureImageView();
-			diffuseinfo.sampler = m_AlbedoTexture.GetTextureSampler();
+			diffuseinfo.imageView = m_AlbedoTexture->GetTextureImageView();
+			diffuseinfo.sampler = m_AlbedoTexture->GetTextureSampler();
 
-			VkDescriptorImageInfo normal{};
+			VkDescriptorImageInfo normal;
 			normal.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			normal.imageView = m_NormalTexture.GetTextureImageView();
-			normal.sampler = m_NormalTexture.GetTextureSampler();
+			normal.imageView = m_NormalTexture->GetTextureImageView();
+			normal.sampler = m_NormalTexture->GetTextureSampler();
 
-			VkDescriptorImageInfo specular{};
+			VkDescriptorImageInfo specular;
 			specular.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			specular.imageView = m_SpecularTexture.GetTextureImageView();
-			specular.sampler = m_SpecularTexture.GetTextureSampler();
+			specular.imageView = m_SpecularTexture->GetTextureImageView();
+			specular.sampler = m_SpecularTexture->GetTextureSampler();
 
-			VkDescriptorImageInfo roughness{};
+			VkDescriptorImageInfo roughness;
 			roughness.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			roughness.imageView = m_RoughnessTexture.GetTextureImageView();
-			roughness.sampler = m_RoughnessTexture.GetTextureSampler();
+			roughness.imageView = m_RoughnessTexture->GetTextureImageView();
+			roughness.sampler = m_RoughnessTexture->GetTextureSampler();
 			
 
 			auto bufferInfo = uboBuffer[i]->descriptorInfo();
@@ -116,6 +130,8 @@ namespace Engine
 
 		KeyboardInput keyboardInput{};
 		auto currentTime = std::chrono::high_resolution_clock::now();
+
+		GlobalUbo globalUbo{};
 
 
 		while (!m_Window.ShouldClose())
@@ -149,8 +165,6 @@ namespace Engine
 				
 				};
 
-				//update
-				GlobalUbo globalUbo{};
 				globalUbo.projectionVieuw = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 				globalUbo.cameraPosition = vieuwerObject.transform.translate;
 				uboBuffer[frameindex]->writeToBuffer(&globalUbo);

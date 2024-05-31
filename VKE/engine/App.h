@@ -39,10 +39,10 @@ namespace Engine
 
 		std::unique_ptr<DescriptorPool> m_GlobalPool{};
 
-		Image m_AlbedoTexture{ m_Device,"models/vehicle_diffuse.png" };
-		Image m_NormalTexture{ m_Device,"models/vehicle_normal.png" };
-		Image m_SpecularTexture{ m_Device,"models/vehicle_specular.png" };
-		Image m_RoughnessTexture{ m_Device,"models/vehicle_roughness.png" };
+		std::unique_ptr<Image> m_AlbedoTexture;
+		std::unique_ptr<Image> m_NormalTexture;
+		std::unique_ptr<Image> m_SpecularTexture;
+		std::unique_ptr<Image> m_RoughnessTexture;
 
 		std::vector<GameObject> m_GameObjects;
 
