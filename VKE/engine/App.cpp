@@ -199,7 +199,7 @@ namespace Engine
 
 		auto sphereObject = GameObject::Create();
 		sphereObject.m_Mesh = sphere;
-		sphereObject.transform.translate = { 0.f,0.f,0.f };
+		sphereObject.transform.translate = { 15.f,0.f,0.f };
 		sphereObject.transform.scale = { 1.f,1.f,1.f };
 		sphereObject.transform.rotation = { 0.f,0.f,0.f };
 		sphereObject.SetIsPBR(false);
