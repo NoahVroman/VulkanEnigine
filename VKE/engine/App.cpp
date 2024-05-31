@@ -112,7 +112,8 @@ namespace Engine
 		Camera camera{};
 
 		auto vieuwerObject = GameObject::Create();
-		vieuwerObject.transform.translate = { 0.f,0.f,-25.f };
+		vieuwerObject.transform.translate = { 8.f,0.f,-40.f };
+
 		KeyboardInput keyboardInput{};
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
@@ -176,23 +177,48 @@ namespace Engine
 
 		auto vehicle = GameObject::Create();
 		vehicle.m_Mesh = vehicleMesh;
-		vehicle.transform.translate = { 1.f,0.f,2.5f };
+		vehicle.transform.translate = { 1.f,0.f,0.f };
 		vehicle.transform.scale = { 0.5f,0.5f,0.5f };
 		vehicle.transform.rotation = { 3.14f,0.f,0.f };
 		vehicle.SetIsPBR(true);
 	
 		m_GameObjects.push_back(std::move(vehicle));
 
+
+		std::shared_ptr<Mesh> vehicleMesh2 = Mesh::CreateModelFromFile(m_Device, "models/vehicle.obj");
+
+
+		auto vehicle2 = GameObject::Create();
+		vehicle2.m_Mesh = vehicleMesh2;
+		vehicle2.transform.translate = { -18.f,0.f,0.f };
+		vehicle2.transform.scale = { 0.5f,0.5f,0.5f };
+		vehicle2.transform.rotation = { 3.14f,0.f,0.f };
+		vehicle2.SetIsPBR(true);
+
+		m_GameObjects.push_back(std::move(vehicle2));
+
+
 		std::shared_ptr<Mesh> colored_cubeMesh = Mesh::CreateModelFromFile(m_Device, "models/colored_cube.obj");
 
 		auto colored_cube = GameObject::Create();
 		colored_cube.m_Mesh = colored_cubeMesh;
-		colored_cube.transform.translate = { 20.f,0.f,0.f };
+		colored_cube.transform.translate = { 30.f,0.f,0.f };
 		colored_cube.transform.scale = { 2.f,2.f,2.f };
 		colored_cube.transform.rotation = { 3.14f,0.f,0.f };
 		colored_cube.SetIsPBR(false);
 		
 		m_GameObjects.push_back(std::move(colored_cube));
+
+		std::shared_ptr<Mesh> viking_room = Mesh::CreateModelFromFile(m_Device, "models/viking_room.obj");
+
+		auto viking_roomOBJ = GameObject::Create();
+		viking_roomOBJ.m_Mesh = viking_room;
+		viking_roomOBJ.transform.translate = { 25.f,0.f,0.f };
+		viking_roomOBJ.transform.scale = { 2.f,2.f,2.f };
+		viking_roomOBJ.transform.rotation = { 3.14f/2.f,3.14/2.f,0.f };
+		viking_roomOBJ.SetIsPBR(false);
+
+		m_GameObjects.push_back(std::move(viking_roomOBJ));
 
 
 		std::shared_ptr<Mesh> sphere = Mesh::CreateModelFromFile(m_Device, "models/sphere.obj");
@@ -206,6 +232,18 @@ namespace Engine
 
 		m_GameObjects.push_back(std::move(sphereObject));
 
+
+
+		std::shared_ptr<Mesh> sphere2 = Mesh::CreateModelFromFile(m_Device, "models/sphere.obj");
+
+		auto sphereObject2 = GameObject::Create();
+		sphereObject2.m_Mesh = sphere2;
+		sphereObject2.transform.translate = { 20.f,0.f,0.f };
+		sphereObject2.transform.scale = { 1.f,1.f,1.f };
+		sphereObject2.transform.rotation = { 0.f,0.f,0.f };
+		sphereObject2.SetIsPBR(false);
+
+		m_GameObjects.push_back(std::move(sphereObject2));
 
 	}
 
