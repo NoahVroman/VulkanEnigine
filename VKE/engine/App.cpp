@@ -22,7 +22,7 @@ namespace Engine
 	struct GlobalUbo
 	{
 	    alignas(16)	glm::mat4 projectionVieuw{ 1.f };
-		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 0,0,0.f });
+		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 0.5f, 0.8f, 0.5f });
 		alignas(16) glm::vec3 cameraPosition = {0,0,0};
 	};
 	
@@ -43,6 +43,8 @@ namespace Engine
 	}
 	App::~App()
 	{
+
+
 		
 	}
 	void App::run()
@@ -168,42 +170,42 @@ namespace Engine
 
 	void App::LoadGameObjects()
 	{
-		std::shared_ptr<Mesh> mesh = Mesh::CreateRectangle(m_Device, 0.3f, 0.3f,glm::vec2{-0.7,0.7});
 
-		auto meshObj = GameObject::Create();
-		meshObj.m_Mesh = mesh;
-		meshObj.transform.translate = { 0.1f,0.f,0.f };
-		meshObj.transform.scale = { 0.3f,0.3,0.3f };
-		meshObj.transform.rotation = { 3.14f / 4.f ,3.14f / 2.f ,0.f};
-		meshObj.SetIs3D(false);
-
-		m_GameObjects.push_back(std::move(meshObj));
+		std::shared_ptr<Mesh> vehicleMesh = Mesh::CreateModelFromFile(m_Device, "models/vehicle.obj");
 
 
-		std::shared_ptr<Mesh> OvalMesh = Mesh::CreateOval(m_Device, 0.3f, 0.3f, glm::vec2{ -0.3,0.7 });
+		auto vehicle = GameObject::Create();
+		vehicle.m_Mesh = vehicleMesh;
+		vehicle.transform.translate = { 1.f,0.f,2.5f };
+		vehicle.transform.scale = { 0.5f,0.5f,0.5f };
+		vehicle.transform.rotation = { 3.14f,0.f,0.f };
+		vehicle.SetIsPBR(true);
+	
+		m_GameObjects.push_back(std::move(vehicle));
 
-		auto ovalObj = GameObject::Create();
-		ovalObj.m_Mesh = OvalMesh;
-		ovalObj.transform.translate = { 0.1f,0.f,0.f };
-		ovalObj.transform.scale = { 0.3f,0.3,0.3f };
-		ovalObj.transform.rotation = { 3.14f / 2.f ,3.14f / 2.f ,0.f };
-		ovalObj.SetIs3D(false);
+		std::shared_ptr<Mesh> colored_cubeMesh = Mesh::CreateModelFromFile(m_Device, "models/colored_cube.obj");
 
-		m_GameObjects.push_back(std::move(ovalObj));
-
-
-		std::shared_ptr<Mesh> Secondmesh = Mesh::CreateModelFromFile(m_Device, "models/vehicle.obj");
-
-
-		auto meshObj2 = GameObject::Create();
-		meshObj2.m_Mesh = Secondmesh;
-		meshObj2.transform.translate = { 1.f,0.f,2.5f };
-		meshObj2.transform.scale = { 0.5f,0.5f,0.5f };
-		meshObj2.transform.rotation = { 3.14f,0.f,0.f };
-
+		auto colored_cube = GameObject::Create();
+		colored_cube.m_Mesh = colored_cubeMesh;
+		colored_cube.transform.translate = { 20.f,0.f,0.f };
+		colored_cube.transform.scale = { 2.f,2.f,2.f };
+		colored_cube.transform.rotation = { 3.14f,0.f,0.f };
+		colored_cube.SetIsPBR(false);
+		
+		m_GameObjects.push_back(std::move(colored_cube));
 
 
-		m_GameObjects.push_back(std::move(meshObj2));
+		std::shared_ptr<Mesh> sphere = Mesh::CreateModelFromFile(m_Device, "models/sphere.obj");
+
+		auto sphereObject = GameObject::Create();
+		sphereObject.m_Mesh = sphere;
+		sphereObject.transform.translate = { 0.f,0.f,0.f };
+		sphereObject.transform.scale = { 1.f,1.f,1.f };
+		sphereObject.transform.rotation = { 0.f,0.f,0.f };
+		sphereObject.SetIsPBR(false);
+
+		m_GameObjects.push_back(std::move(sphereObject));
+
 
 	}
 

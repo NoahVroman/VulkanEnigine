@@ -19,6 +19,9 @@ namespace Engine
 
 	Image::~Image()
 	{
+
+		Cleanup();
+
 	}
 	void Image::CreateTextureImage(const std::string& filename)
 	{

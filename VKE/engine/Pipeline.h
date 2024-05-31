@@ -24,8 +24,7 @@ namespace Engine
 		VkRenderPass renderPass = nullptr;
 		uint32_t subpass = 0;
 
-		bool Is3D = true;
-		bool isPBR = false;
+		bool IsPBR = true;
 	};
 
 	class Pipeline

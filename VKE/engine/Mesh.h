@@ -30,7 +30,7 @@ namespace Engine
 
 
 			static std::vector <VkVertexInputBindingDescription>   GetBindingDescriptions();
-			static std::vector <VkVertexInputAttributeDescription> GetAttributeDescriptions(bool Is3D);
+			static std::vector <VkVertexInputAttributeDescription> GetAttributeDescriptions(bool isPBR);
 
 			bool operator==(const Vertex& other) const
 			{

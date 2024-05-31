@@ -42,7 +42,7 @@ void main()
 
     vec4 lambert = CalculateLambert(1.0, albedo);
 
-    float shininess = 200.0f; 
+    float shininess = 100.0f; 
     float specularExp = shininess * glossinessMap;
     float specular = pow(max(dot(viewDir, reflect(normalize(lightDirection), finalNormal)), 0.0), specularExp) * specularMap.r;
 

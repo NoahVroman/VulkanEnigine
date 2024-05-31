@@ -72,23 +72,17 @@ namespace Engine
 		configInfo.renderPass = renderpass;
 		configInfo.pipelineLayout = m_PipelineLayout;
 
-	/*	m_Pipeline = std::make_unique<Pipeline>(m_Device, "shaders/simple_shader.vert.spv",
+		
+		m_Pipeline = std::make_unique<Pipeline>(m_Device, "shaders/simple_shader.vert.spv",
 												"shaders/simple_shader.frag.spv",
-												configInfo);*/
+												configInfo);
 
+
+		configInfo.IsPBR = true;
 		m_PipelinePBR = std::make_unique<Pipeline>(m_Device, "shaders/PBRShader.vert.spv",
 												   "shaders/PBRShader.frag.spv",
 												   configInfo);
 
-		configInfo.Is3D = false;
-
-		m_Pipeline2D = std::make_unique<Pipeline>(m_Device, "shaders/2D_shader.vert.spv",
-															"shaders/2D_shader.frag.spv",
-															configInfo);
-
-		
-
-		
 	}
 
 
@@ -109,15 +103,18 @@ namespace Engine
 
 		for (auto& obj : gameobj)
 		{
-			if (obj.Is3D())
+
+
+			if (obj.IsPBR())
 			{
 				m_PipelinePBR->Bind(frameinfo.commandBuffer);
 
 			}
 			else
 			{
-				 m_Pipeline2D->Bind(frameinfo.commandBuffer);
+				m_Pipeline->Bind(frameinfo.commandBuffer);
 			}
+
 
 			PushConstantData push{};
 			push.modelMatrix = obj.transform.mat4();

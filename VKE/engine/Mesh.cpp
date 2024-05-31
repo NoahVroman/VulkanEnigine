@@ -29,6 +29,7 @@ namespace Engine
 
 	Mesh::~Mesh()
 	{
+
 	}
 
 	std::unique_ptr<Mesh> Mesh::CreateModelFromFile(Device& device, const std::string& filepath)
@@ -37,66 +38,6 @@ namespace Engine
 		builder.loadModel(filepath);
 		return std::make_unique<Mesh>(device, builder);
 	}
-
-	std::unique_ptr<Mesh> Mesh::CreateRectangle(Device& device, float width, float height, const glm::vec2& pos)
-	{
-		Builder builder{};
-
-		glm::vec3 pos3D{ pos, 0.0f };
-
-		builder.vertices = {
-			{pos3D + glm::vec3{ -width / 2.f, -height / 2.f, 0.0f }, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}, {0.0f, 0.0f} },
-			{pos3D + glm::vec3{width / 2.f, -height / 2.f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f,0.0f,1.0f}, {1.0f, 0.0f}},
-			{pos3D + glm::vec3{width / 2.f, height / 2.f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f, 1.0f}},
-			{pos3D + glm::vec3{-width / 2.f, height / 2.f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f,0.0f,1.0f}, {0.0f, 1.0f}}
-		};
-
-		builder.indices = { 0, 1, 2, 2, 3, 0 };
-
-		return std::make_unique<Mesh>(device, builder);
-		
-	}
-
-	std::unique_ptr<Mesh> Mesh::CreateOval(Device& device, float width, float height, const glm::vec2& pos)
-	{
-
-		Builder builder{};
-
-		constexpr int numSegments = 36;
-		constexpr float angleIncrement = (2.0f * glm::pi<float>()) / numSegments;
-
-		
-		// Generate vertices for the oval shape
-		for (int i = 0; i < numSegments; ++i)
-		{
-			float angle = i * angleIncrement;
-			float x = pos.x + 0.5f * width * cos(angle);
-			float y = pos.y + 0.5f * height * sin(angle);
-			builder.vertices.push_back({ glm::vec3(x, y, 0.0f) });
-		}
-
-		// Generate indices to form triangles connecting the vertices
-		for (int i = 1; i < numSegments - 1; ++i)
-		{
-			builder.indices.push_back(0);         // Center vertex
-			builder.indices.push_back(i);         // Current vertex
-			builder.indices.push_back(i + 1);     // Next vertex
-		}
-
-		// Connect the last vertex to the first and the second vertices
-		builder.indices.push_back(0);
-		builder.indices.push_back(numSegments - 1);
-		builder.indices.push_back(1);
-
-		// Create a new Mesh object with the calculated vertices and indices
-		auto mesh = std::make_unique<Mesh>(device, builder);
-
-		// Return the mesh wrapped in a std::unique_ptr
-		return mesh;
-
-		
-	}
-
 
 	void Mesh::Bind(VkCommandBuffer commandBuffer)
 	{
@@ -211,22 +152,20 @@ namespace Engine
 		return bindingDescriptions;
 	}
 
-	std::vector<VkVertexInputAttributeDescription> Mesh::Vertex::GetAttributeDescriptions(bool Is3D)
+	std::vector<VkVertexInputAttributeDescription> Mesh::Vertex::GetAttributeDescriptions(bool isPBR)
 	{
 		std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
-		if (Is3D)
+
+		attributeDescriptions.push_back({ 0,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position) });
+		attributeDescriptions.push_back({1,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) });
+
+		if (isPBR)
 		{
-			attributeDescriptions.push_back({ 0,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position) });
+			attributeDescriptions.push_back({ 2,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) });
+			attributeDescriptions.push_back({ 3,0,VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv) });
+			attributeDescriptions.push_back({ 4,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) });
 
 		}
-		else
-		{
-			attributeDescriptions.push_back({ 0,0,VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, position) });
-		}
-		attributeDescriptions.push_back({1,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) });
-		attributeDescriptions.push_back({2,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) });
-		attributeDescriptions.push_back({3,0,VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv) });
-		attributeDescriptions.push_back({4,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) });
 
 
 		return attributeDescriptions;

@@ -62,8 +62,8 @@ namespace Engine
 
 		id_t GetId() const { return m_Id; }
 
-		bool Is3D() const { return is3D; }
-		void SetIs3D(bool value) { is3D = value; }
+		bool IsPBR() const { return isPBR; }
+		void SetIsPBR(bool value) { isPBR = value; }
 
 
 		std::shared_ptr<Mesh> m_Mesh{};
@@ -74,7 +74,7 @@ namespace Engine
 	private:
 		GameObject(id_t id) : m_Id(id) {};
 
-		bool is3D = true;
+		bool isPBR = true;
 
 
 		id_t m_Id;

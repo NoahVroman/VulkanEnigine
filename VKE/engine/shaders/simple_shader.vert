@@ -18,13 +18,13 @@ layout(push_constant) uniform Push{
 	mat4 normalMatrix;
 } push;
 
-const float AMBIENT_INTENSITY = 0.02;
+const float AMBIENT_INTENSITY = 0.03;
 
 
 void main()
 {
 	gl_Position = ubo.projectionViewMatrix * push.modelMatrix * vec4(position, 1.0);
 	vec3 normal = normalize(mat3(push.normalMatrix) * normal);
-	float lightIntensity = AMBIENT_INTENSITY + max(dot(normal, ubo.directionToLight),0);
+	float lightIntensity = AMBIENT_INTENSITY + max(dot(normal, -ubo.directionToLight),0);
 	outColor = color * lightIntensity;
 }

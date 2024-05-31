@@ -115,7 +115,7 @@ namespace Engine
  		shaderStages[1].pNext = nullptr;
 
 		auto bindingDescriptions = Mesh::Vertex::GetBindingDescriptions();
-		auto attributeDescriptions = Mesh::Vertex::GetAttributeDescriptions(config.Is3D);
+		auto attributeDescriptions = Mesh::Vertex::GetAttributeDescriptions(config.IsPBR);
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
