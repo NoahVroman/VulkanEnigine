@@ -30,6 +30,8 @@ namespace Engine
 	Mesh::~Mesh()
 	{
 
+
+
 	}
 
 	std::unique_ptr<Mesh> Mesh::CreateModelFromFile(Device& device, const std::string& filepath)

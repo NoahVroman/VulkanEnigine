@@ -15,14 +15,14 @@ namespace Engine
 		Material(const Material&) = delete;
 		Material& operator=(const Material&) = delete;
 
-		void Draw(VkCommandBuffer commandBuffer,Pipeline* pipeline,Mesh* Mesh);
+		//void Draw(VkCommandBuffer commandBuffer,Pipeline* pipeline,Mesh* Mesh);
 
 		private:
 
-		std::unique_ptr<Image> m_AlbedoTexture;
-		std::unique_ptr<Image> m_NormalTexture;
-		std::unique_ptr<Image> m_RoughnessTexture;
-		std::unique_ptr<Image> m_Specular;
+		//std::unique_ptr<Image> m_AlbedoTexture;
+		//std::unique_ptr<Image> m_NormalTexture;
+		//std::unique_ptr<Image> m_RoughnessTexture;
+		//std::unique_ptr<Image> m_Specular;
 			
 	};
 }

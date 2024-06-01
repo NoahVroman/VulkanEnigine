@@ -20,6 +20,7 @@ namespace Engine
 	Image::~Image()
 	{
 
+		Cleanup();
 
 	
 
@@ -183,10 +184,7 @@ namespace Engine
 	{
 		vkDestroySampler(m_Device.device(), textureSampler, nullptr);
 		vkDestroyImageView(m_Device.device(), textureImageView, nullptr);
-
 		vkDestroyImage(m_Device.device(), textureImage, nullptr);
-		vkFreeMemory(m_Device.device(), textureImageMemory, nullptr);
-
-		
+		vkFreeMemory(m_Device.device(), textureImageMemory, nullptr); // Free memory associated with the texture image	
 	}
 }

@@ -57,9 +57,6 @@ namespace Engine
 
 		static std::unique_ptr<Mesh> CreateModelFromFile(Device& device, const std::string& filepath);
 
-		static std::unique_ptr<Mesh> CreateRectangle(Device& device, float width, float height, const glm::vec2& pos);
-
-		static std::unique_ptr<Mesh> CreateOval(Device& device, float width, float height, const glm::vec2& pos);
 
 		void Bind(VkCommandBuffer commandBuffer);
 		void Draw(VkCommandBuffer commandBuffer);

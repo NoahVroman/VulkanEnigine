@@ -37,6 +37,7 @@ namespace Engine
 		Device m_Device{m_Window};
 		Renderer m_Renderer{ m_Window,m_Device };
 
+
 		std::unique_ptr<DescriptorPool> m_GlobalPool{};
 
 		std::unique_ptr<Image> m_AlbedoTexture;

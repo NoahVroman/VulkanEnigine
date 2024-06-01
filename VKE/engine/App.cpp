@@ -29,6 +29,9 @@ namespace Engine
 
 	App::App()
 	{
+
+		
+
 		m_AlbedoTexture = std::make_unique<Image>(m_Device, "models/vehicle_diffuse.png");
 		m_NormalTexture = std::make_unique<Image>(m_Device, "models/vehicle_normal.png");
 		m_SpecularTexture = std::make_unique<Image>(m_Device, "models/vehicle_specular.png");
@@ -50,14 +53,6 @@ namespace Engine
 	App::~App()
 	{
 		m_GameObjects.clear();
-
-		
-
-		m_AlbedoTexture->Cleanup();
-		m_NormalTexture->Cleanup();
-		m_SpecularTexture->Cleanup();
-		m_RoughnessTexture->Cleanup();
-
 
 		vkDeviceWaitIdle(m_Device.device());
 	}
