@@ -14,10 +14,13 @@ layout(location = 3) out vec3 fragTangent;
 layout(location = 4) out vec3 fragCameraPosition;
 layout(location = 5) out vec4 fragVertexPosition;
 
+layout(location = 6) out int fragRenderMode;
+
 layout(set = 0, binding = 0) uniform GlobalUbo {
     mat4 projectionViewMatrix;
     vec3 directionToLight;
     vec3 cameraPosition;
+    int  rendermode;
 } ubo;
 
 layout(push_constant) uniform Push {
@@ -40,4 +43,5 @@ void main()
 
     fragCameraPosition = ubo.cameraPosition;
     fragVertexPosition = push.modelMatrix * vec4(inPosition, 1.0);
+    fragRenderMode = ubo.rendermode;
 }

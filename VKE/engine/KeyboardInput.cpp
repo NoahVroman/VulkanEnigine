@@ -1,4 +1,5 @@
 #include "KeyboardInput.h"
+#include "Keyboard.h"
 
 namespace Engine
 {
@@ -61,5 +62,16 @@ namespace Engine
         }
 
 	}
+
+    void KeyboardInput::CycleRenderMode(GLFWwindow* window, int& renderMode)
+    {
+
+        if (Keyboard::getInstance().just_pressed(m_keyboardMapping.cycleRenderMode))
+        {
+                renderMode += 1;
+                renderMode %= 4;
+        }
+        
+    }
 
 }

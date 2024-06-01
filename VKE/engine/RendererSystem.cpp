@@ -68,6 +68,8 @@ namespace Engine
 
 		Pipeline::DefaultPipelineConfigInfo(configInfo);
 
+		
+
 
 		configInfo.renderPass = renderpass;
 		configInfo.pipelineLayout = m_PipelineLayout;
@@ -101,6 +103,8 @@ namespace Engine
 			nullptr
 		);
 
+
+
 		for (auto& obj : gameobj)
 		{
 
@@ -119,6 +123,8 @@ namespace Engine
 			PushConstantData push{};
 			push.modelMatrix = obj.transform.mat4();
 			push.normalMatrix = obj.transform.normalMatrix();
+
+
 
 			vkCmdPushConstants(frameinfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
 

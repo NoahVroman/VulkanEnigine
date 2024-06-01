@@ -12,6 +12,8 @@ layout(location = 3) in vec3 fragTangent;
 layout(location = 4) in vec3 fragCameraPosition;
 layout(location = 5) in vec4 fragVertexPosition;
 
+layout(location = 6) in flat int fragrendermode;
+
 layout(location = 0) out vec4 outColor;
 
 const float PI = 3.14159265359;
@@ -47,5 +49,25 @@ void main()
     float specular = pow(max(dot(viewDir, reflect(normalize(lightDirection), finalNormal)), 0.0), specularExp) * specularMap.r;
 
     vec3 finalColor = (lightIntensity * lambert.rgb + specular) * observedArea;
-    outColor = vec4(finalColor, 1.0);
+
+    switch(fragrendermode)
+	{
+		case 0:
+			outColor = vec4(lambert.rgb, 1.0);
+			break;
+		case 1:
+			outColor = vec4(finalNormal, 1.0);
+			break;
+		case 2:
+			outColor = vec4(specularMap, 1.0);
+			break;
+		case 3:
+			outColor = vec4(finalColor, 1.0);
+			break;
+            default:
+            outColor = vec4(1.0, 0.0, 1.0, 1.0);
+            break;
+	}
+
+
 }

@@ -182,9 +182,21 @@ namespace Engine
 	}
 	void Image::Cleanup()
 	{
-		vkDestroySampler(m_Device.device(), textureSampler, nullptr);
-		vkDestroyImageView(m_Device.device(), textureImageView, nullptr);
-		vkDestroyImage(m_Device.device(), textureImage, nullptr);
-		vkFreeMemory(m_Device.device(), textureImageMemory, nullptr); // Free memory associated with the texture image	
+		if (textureSampler != VK_NULL_HANDLE) {
+			vkDestroySampler(m_Device.device(), textureSampler, nullptr);
+			textureSampler = VK_NULL_HANDLE;
+		}
+		if (textureImageView != VK_NULL_HANDLE) {
+			vkDestroyImageView(m_Device.device(), textureImageView, nullptr);
+			textureImageView = VK_NULL_HANDLE;
+		}
+		if (textureImage != VK_NULL_HANDLE) {
+			vkDestroyImage(m_Device.device(), textureImage, nullptr);
+			textureImage = VK_NULL_HANDLE;
+		}
+		if (textureImageMemory != VK_NULL_HANDLE) {
+			vkFreeMemory(m_Device.device(), textureImageMemory, nullptr);
+			textureImageMemory = VK_NULL_HANDLE;
+		}
 	}
 }

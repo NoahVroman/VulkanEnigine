@@ -17,15 +17,17 @@
 #include <chrono>
 #include "FrameInfo.h"
 
+#include "Keyboard.h"
+
 namespace Engine
 {
-	struct GlobalUbo
-	{
-	    alignas(16)	glm::mat4 projectionVieuw{ 1.f };
-		alignas(16)	glm::vec3 lightDirection = glm::normalize(glm::vec3{ 0.5f, 0.8f, 0.5f });
-		alignas(16) glm::vec3 cameraPosition = {0,0,0};
+	struct alignas(16) GlobalUbo {
+		glm::mat4 projectionVieuw{ 1.f };
+		alignas(16) glm::vec3 lightDirection = glm::normalize(glm::vec3{ 0.5f, 0.8f, 0.5f });
+		alignas(16) glm::vec3 cameraPosition = { 0, 0, 0 };
+		alignas(4) int renderMode{};
 	};
-	
+
 
 	App::App()
 	{
@@ -73,7 +75,10 @@ namespace Engine
 					VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
 				);
 			uboBuffer[i]->map();
+
 		}
+
+
 
 		auto globalSetLayout = DescriptorSetLayout::Builder(m_Device)
 			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
@@ -127,23 +132,29 @@ namespace Engine
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
 		GlobalUbo globalUbo{};
+		int renderMode{3};
+
 
 
 		while (!m_Window.ShouldClose())
 		{
 			glfwPollEvents();
 
+			Keyboard::getInstance().update(m_Window.GetWindow());
+
+			keyboardInput.CycleRenderMode(m_Window.GetWindow(), renderMode);
+
 
 			auto newTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 			currentTime = newTime;
-
 
 			keyboardInput.MoveInXZ(m_Window.GetWindow(), vieuwerObject, deltaTime);
 			camera.SetViewYXZ(vieuwerObject.transform.translate, vieuwerObject.transform.rotation);
 
 			float aspectRatio = m_Renderer.AspectRatio();
 			camera.SetPerspective(glm::radians(45.f), aspectRatio, 0.1f, 100.f);
+
 
 
 			if (auto commandbuffer = m_Renderer.BeginFrame())
@@ -162,8 +173,10 @@ namespace Engine
 
 				globalUbo.projectionVieuw = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 				globalUbo.cameraPosition = vieuwerObject.transform.translate;
+				globalUbo.renderMode = renderMode;
 				uboBuffer[frameindex]->writeToBuffer(&globalUbo);
 				uboBuffer[frameindex]->flush();
+
 
 				//render
 				m_Renderer.BeginSwapChainRenderPass(commandbuffer);
